@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useOnline from "./hooks/useOnline";
 import useSWR from "./hooks/useSWR";
 import useMousePointer from "./hooks/useMousePointer";
 import useInterval from "./hooks/useInterval";
+import useDebounce from "./hooks/useDebounce";
 
 type Todo = {
   title: string;
@@ -11,7 +12,11 @@ type Todo = {
 
 function App() {
   const url = "https://jsonplaceholder.typicode.com/posts";
-  const { data: todos, isLoading, error } = useSWR(url, true);
+  // const { data: todos, isLoading, error } = useSWR(url, true);
+
+  const [value, setValue] = useState("");
+
+  const debouncedValue = useDebounce(value, 700);
 
   const isOnline = useOnline();
 
@@ -21,18 +26,18 @@ function App() {
     console.log("Current Date: ", new Date());
   };
 
-  const timer = useInterval(displayCurrentTimestamp,3000);
+  const timer = useInterval(displayCurrentTimestamp, 3000);
 
   useEffect(() => {
     if (!isOnline) window.alert("You are offline !!");
   }, [isOnline]);
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-  if (isLoading) {
-    return <div>Loading....</div>;
-  }
+  // if (error) {
+  //   return <div>{error}</div>;
+  // }
+  // if (isLoading) {
+  //   return <div>Loading....</div>;
+  // }
   return (
     <>
       <p>
@@ -41,9 +46,21 @@ function App() {
 
       <p>Timer is at : {timer}</p>
 
-      {todos?.map((todo, index) => (
+      <p>Debonced Value is : {debouncedValue}</p>
+      <p>Debonced char length is : {debouncedValue.length}</p>
+
+      <p>Value is : {value}</p>
+
+      <p>value char length is : {value.length}</p>
+
+      <input
+        type="text"
+        onChange={(e) => setValue(e.target.value)}
+      />
+
+      {/* {todos?.map((todo, index) => (
         <Track key={index} todo={todo} />
-      ))}
+      ))} */}
     </>
   );
 }
