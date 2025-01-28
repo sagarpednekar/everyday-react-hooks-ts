@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import useOnline from "./hooks/useOnline";
 import useSWR from "./hooks/useSWR";
+import useMousePointer from "./hooks/useMousePointer";
+import useInterval from "./hooks/useInterval";
 
 type Todo = {
   title: string;
@@ -12,6 +14,14 @@ function App() {
   const { data: todos, isLoading, error } = useSWR(url, true);
 
   const isOnline = useOnline();
+
+  const mousePosition = useMousePointer();
+
+  const displayCurrentTimestamp = () => {
+    console.log("Current Date: ", new Date());
+  };
+
+  const timer = useInterval(displayCurrentTimestamp,3000);
 
   useEffect(() => {
     if (!isOnline) window.alert("You are offline !!");
@@ -25,6 +35,12 @@ function App() {
   }
   return (
     <>
+      <p>
+        Position is : {mousePosition.x}, {mousePosition.y}
+      </p>
+
+      <p>Timer is at : {timer}</p>
+
       {todos?.map((todo, index) => (
         <Track key={index} todo={todo} />
       ))}
