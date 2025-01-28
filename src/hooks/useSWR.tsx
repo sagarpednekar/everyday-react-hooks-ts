@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
-type Todo = {
+type Data = {
   title: string;
   body: string;
 };
@@ -13,7 +13,7 @@ export default function useSWR(
   pollingInterval = 3000
 ) {
   // state management
-  const [data, setData] = useState<Todo[]>([]);
+  const [data, setData] = useState<Data[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
