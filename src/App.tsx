@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import useOnline from "./hooks/useOnline";
-import useSWR from "./hooks/useSWR";
-import useMousePointer from "./hooks/useMousePointer";
-import useInterval from "./hooks/useInterval";
-import useDebounce from "./hooks/useDebounce";
+
+import {
+  useDebounce,
+  useInterval,
+  useMousePointer,
+  useSWR,
+  useOnline,
+} from "./hooks";
 
 type Todo = {
   title: string;
@@ -53,10 +56,7 @@ function App() {
 
       <p>value char length is : {value.length}</p>
 
-      <input
-        type="text"
-        onChange={(e) => setValue(e.target.value)}
-      />
+      <input type="text" onChange={(e) => setValue(e.target.value)} />
 
       {/* {todos?.map((todo, index) => (
         <Track key={index} todo={todo} />
